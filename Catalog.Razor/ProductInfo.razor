@@ -1,0 +1,37 @@
+﻿@using System.Dynamic
+@using Catalog.API.Model
+@using ITOps.Utilities
+
+@if (_model != null)
+{
+    @if (_order == null)
+    {
+        <span>Unknown</span>
+    }
+    else
+    {
+        <span>@(_order.Name)</span>
+    }
+}
+
+@code {
+    [Parameter]
+    public Guid ProductId { get; set; }
+    [CascadingParameter(Name = "CompositionModel")]
+    public ExpandoObject CompositionModel { get; set; }
+
+    OrdersIndexViewModel _model;
+
+    protected override void OnInitialized()
+    {
+        dynamic model = CompositionModel;
+        if (model?.catalog != null)
+        {
+            _model = ((ExpandoObject)model.catalog).As<OrdersIndexViewModel>(JsonSerializerSettingsDefaults.GetJsonSerializerSettings());
+        }
+
+        base.OnInitialized();
+    }
+    
+    OrderViewModel _order =>  _model?.Orders.SingleOrDefault(x => x.ProductId == ProductId);
+}

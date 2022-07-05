@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ServiceComposer.AspNetCore" Version="1.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sales.API.Events\Sales.API.Events.csproj" />
+    <ProjectReference Include="..\Sales.API.Model\Sales.API.Model.csproj" />
+    <ProjectReference Include="..\Services.Data.Sample\Services.Data.Sample.csproj" />
+  </ItemGroup>
+
+</Project>

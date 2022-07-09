@@ -2,6 +2,6 @@
 {
     public class OrdersIndexViewModel
     {
-        public OrderViewModel[] Orders { get; set; }
+        public Dictionary<Guid, OrderViewModel> OrdersMap { get; set; }
     }
 }

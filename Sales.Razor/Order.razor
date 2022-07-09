@@ -1,0 +1,27 @@
+﻿@using System.Dynamic
+@using Sales.API.Model
+
+@if (_model != null)
+{
+    <div>@_model.OrderId</div>
+    <div>@_model.Price</div>
+}
+
+
+@code {
+    [Parameter]
+    public Guid OrderId { get; set; }
+    [CascadingParameter(Name = "CompositionModel")]
+    public ExpandoObject CompositionModel { get; set; }
+
+    private OrderViewModel _model;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        dynamic compositionModel = CompositionModel;
+
+        var ordersModel = ((ExpandoObject)compositionModel.sales).As<OrdersIndexViewModel>(JsonSerializerSettingsDefaults.GetJsonSerializerSettings());
+        _model = ordersModel.OrdersMap[OrderId];
+    }
+}

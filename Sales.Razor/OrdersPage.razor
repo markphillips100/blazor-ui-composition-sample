@@ -1,0 +1,74 @@
+﻿@page "/orders"
+@using ITOps.Utilities
+@using Sales.API.Model
+@using System.Dynamic
+@using Sales.Razor
+@using System.Net.Http
+
+@inject HttpClient Http
+
+<PageTitle>Orders</PageTitle>
+
+<h1>Orders</h1>
+
+<p>This component demonstrates the following:</p>
+<ul>
+    <li><p>UI composition using a dynamic component to render some product information.</p></li>
+    <li><p>View model composition to obtain information in a single call.</p></li>
+</ul>
+    
+
+@if (_compositionModel == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>OrderId</th>
+                <th>Price</th>
+                <th>Product Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in _ordersModel.OrdersMap.Values)
+            {
+            <CascadingValue Value="@_compositionModel" Name="CompositionModel">
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.Price</td>
+                    <td>
+                        <DynamicComponent Type="@ProductInfoComponentType"
+                                          Parameters="@GetProductInfoParameters(order.OrderId)" />
+                    </td>
+                </tr>
+            </CascadingValue>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ExpandoObject _compositionModel;
+    private OrdersIndexViewModel _ordersModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var httpResponse = await Http.GetAsync($"api/orders");
+        dynamic compositionModel = await httpResponse.Content.AsExpandoAsync(JsonSerializerSettingsDefaults.GetJsonSerializerSettings());
+
+        _ordersModel = ((ExpandoObject)compositionModel.sales).As<OrdersIndexViewModel>(JsonSerializerSettingsDefaults.GetJsonSerializerSettings());
+        _compositionModel = (ExpandoObject)compositionModel;
+    }
+
+    static Type ProductInfoComponentType = Type.GetType("Catalog.Razor.OrderProductInfo, Catalog.Razor");
+    Dictionary<string, object> GetProductInfoParameters(Guid orderId)
+    {
+        return new Dictionary<string, object>
+        {
+            { "OrderId", orderId }
+        };
+    }
+}

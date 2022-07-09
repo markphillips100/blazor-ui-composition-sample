@@ -19,7 +19,7 @@ namespace Sales.API
         public async Task Handle(HttpRequest request)
         {
             var vm = request.GetComposedResponseModel();
-            vm.sales = new OrdersIndexViewModel { Orders = _orders.ToArray() };
+            vm.sales = new OrdersIndexViewModel { OrdersMap = _orders.ToDictionary(x => x.OrderId, x => x) };
 
             await request
                 .GetCompositionContext()

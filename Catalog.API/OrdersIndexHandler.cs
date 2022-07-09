@@ -11,8 +11,8 @@ namespace Catalog.API
     {
         private static readonly List<OrderViewModel> _orders = new()
         {
-            new OrderViewModel { ProductId = SampleData.ProductId1, Name = "SKU123" },
-            new OrderViewModel { ProductId = SampleData.ProductId2, Name = "SKU456" }
+            new OrderViewModel { OrderId = SampleData.OrderId1, ProductId = SampleData.ProductId1, Name = "SKU123" },
+            new OrderViewModel { OrderId = SampleData.OrderId2, ProductId = SampleData.ProductId2, Name = "SKU456" }
         };
 
         [HttpGet("api/orders")]
@@ -20,7 +20,7 @@ namespace Catalog.API
         {
             publisher.Subscribe<OrdersIndexRequested>((@event, request) =>
             {
-                request.GetComposedResponseModel().catalog = new OrdersIndexViewModel { Orders = _orders.ToArray() };
+                request.GetComposedResponseModel().catalog = new OrdersIndexViewModel { OrdersMap = _orders.ToDictionary(x => x.OrderId, x => x) };
 
                 return Task.CompletedTask;
             });

@@ -2,21 +2,14 @@
 @using Catalog.API.Model
 @using ITOps.Utilities
 
-@if (_model != null)
+@if (_model != null && _order != null)
 {
-    @if (_order == null)
-    {
-        <span>Unknown</span>
-    }
-    else
-    {
-        <span>@(_order.Name)</span>
-    }
+    <div>@(_order.Name)</div>
 }
 
 @code {
     [Parameter]
-    public Guid ProductId { get; set; }
+    public Guid OrderId { get; set; }
     [CascadingParameter(Name = "CompositionModel")]
     public ExpandoObject CompositionModel { get; set; }
 
@@ -33,5 +26,5 @@
         base.OnInitialized();
     }
     
-    OrderViewModel _order =>  _model?.Orders.SingleOrDefault(x => x.ProductId == ProductId);
+    OrderViewModel _order =>  _model?.OrdersMap[OrderId];
 }

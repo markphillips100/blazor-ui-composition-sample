@@ -1,0 +1,41 @@
+﻿@page "/orders"
+
+<PageTitle>Orders</PageTitle>
+
+<h2>Cards</h2>
+<Sales.Razor.Orders>
+    <ListTemplate Context="keys">
+        @foreach (var key in keys)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <Sales.Razor.Order OrderId="key" />
+                    <Catalog.Razor.OrderProductInfo OrderId="key" />
+                </div>
+            </div>
+        }
+    </ListTemplate>
+</Sales.Razor.Orders>
+
+<h2>Tables</h2>
+<Sales.Razor.Orders>
+    <ListTemplate Context="keys">
+        <table class="table">
+            <thead>
+                <tr>
+                    <Sales.Razor.OrderTableHeader />
+                    <Catalog.Razor.OrderProductInfoTableHeader />
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var key in keys)
+            {
+                <tr>
+                    <Sales.Razor.OrderTableRow OrderId="key" />
+                    <Catalog.Razor.OrderProductInfoTableRow OrderId="key" />
+                </tr>
+            }
+            </tbody>
+        </table>
+    </ListTemplate>
+</Sales.Razor.Orders>

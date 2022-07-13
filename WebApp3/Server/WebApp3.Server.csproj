@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Catalog.API\Catalog.API.csproj" />
     <ProjectReference Include="..\..\Sales.API\Sales.API.csproj" />
-    <ProjectReference Include="..\Client\WebApp.Client.csproj" />
+    <ProjectReference Include="..\Client\WebApp3.Client.csproj" />
   </ItemGroup>
 
 

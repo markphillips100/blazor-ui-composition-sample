@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,8 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Catalog.Razor\Catalog.Razor.csproj" />
-    <ProjectReference Include="..\..\Sales.Razor\Sales.Razor.csproj" />
+	  <ProjectReference Include="..\..\Catalog.API.Model\Catalog.API.Model.csproj" />
+	  <ProjectReference Include="..\..\ITOps.Utilities\ITOps.Utilities.csproj" />
+	  <ProjectReference Include="..\..\Sales.API.Model\Sales.API.Model.csproj" />
   </ItemGroup>
 
 </Project>

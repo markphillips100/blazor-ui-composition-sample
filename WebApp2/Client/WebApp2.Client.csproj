@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Catalog.Razor\Catalog.Razor.csproj" />
     <ProjectReference Include="..\..\Sales.Razor\Sales.Razor.csproj" />
-    <ProjectReference Include="..\Shared\WebApp2.Shared.csproj" />
   </ItemGroup>
 
 </Project>

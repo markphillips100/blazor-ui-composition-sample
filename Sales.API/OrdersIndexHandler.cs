@@ -14,7 +14,7 @@ namespace Sales.API
             new OrderViewModel { OrderId = SampleData.OrderId1, Price = 100, ProductId = SampleData.ProductId1 },
             new OrderViewModel { OrderId = SampleData.OrderId2, Price = 200, ProductId = SampleData.ProductId2 }
         };
-    
+
         [HttpGet("api/orders")]
         public async Task Handle(HttpRequest request)
         {

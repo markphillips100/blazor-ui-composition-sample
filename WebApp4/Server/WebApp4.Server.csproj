@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ServiceComposer.AspNetCore" Version="1.13.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Catalog.API\Catalog.API.csproj" />
+    <ProjectReference Include="..\..\Sales.API\Sales.API.csproj" />
+    <ProjectReference Include="..\Client\WebApp4.Client.csproj" />
+  </ItemGroup>
+
+
+</Project>

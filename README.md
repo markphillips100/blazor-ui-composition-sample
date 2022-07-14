@@ -16,7 +16,10 @@ All approaches use viewmodel composition to build a model from a single api call
 
 ## DynamicComponent Approach
 
-WebApp project makes use of a page component from the Sales service.  This page uses a Blazor DynamicComponent to render a blazor component from another service boundary (Catalog).  Whilst there's no compile-time dependency for this UI composition approach, there is knowledge leaking from the Catalog domain into the Sales domain as the fully qualified name and component parameter contract must be known to Sales UI components.
+WebApp project makes use of 2 page components from the Sales service.
+
+- ```/orders``` This page uses a Blazor DynamicComponent to render a blazor component from another service boundary (Catalog).  Whilst there's no compile-time dependency for this UI composition approach, there is knowledge leaking from the Catalog domain into the Sales domain as the fully qualified name and component parameter contract must be known to Sales UI components.
+- ```/orders-factory``` This page again use a DynamicComponent to render the same blazor component form the Catalog domain.  However, it makes use of a class to resolve the required type and parameters.  The provider makes an assumption that a key should be provided and is a Guid.  This still gives control of where a catalog component should render its information to the sales domain whilst leaving the how to render the data to the catalog domain, but makes no assumptions about what the static type name of the component is.  Obviously this requires the logical name of the component to be known, e.g. "OrderProductInfo", but it's important to be at least logically specific about the type of component sales wants to render.  If we were to use a different qualifier, like say the page url, then this would not support different rendering requirements on the same page.
 
 ## Template Approach
 

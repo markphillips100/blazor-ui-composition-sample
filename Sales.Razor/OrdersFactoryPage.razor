@@ -1,0 +1,74 @@
+﻿@page "/orders-factory"
+@using ITOps.Utilities
+@using Sales.API.Model
+@using System.Dynamic
+@using Sales.Razor
+@using System.Net.Http
+
+@inject HttpClient Http
+@inject DynamicComponentFactory CompositionComponentFactory
+
+<PageTitle>Orders</PageTitle>
+
+<h1>Orders</h1>
+
+<p>This component demonstrates the following:</p>
+<ul>
+    <li><p>UI composition using a dynamic component that obtains its type and parameters indirectly by using a provider.</p></li>
+    <li><p>View model composition to obtain information in a single call.</p></li>
+</ul>
+    
+
+@if (_compositionModel == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>OrderId</th>
+                <th>Price</th>
+                <th>Product Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in _ordersModel.OrdersMap.Values)
+            {
+            <CascadingValue Value="@_compositionModel" Name="CompositionModel">
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.Price</td>
+                    <td>
+                        @{
+                            var catalogProductInfoDynamicComponent = CompositionComponentFactory.GetDynamicComponentInfo(CatalogProductInfoComponentName, order.OrderId);
+                            if (catalogProductInfoDynamicComponent != null)
+                            {
+                            <DynamicComponent Type="@catalogProductInfoDynamicComponent.Value.DynamicComponentType"
+                                              Parameters="@catalogProductInfoDynamicComponent.Value.Parameters" />
+                            }
+                        }
+                    </td>
+                </tr>
+            </CascadingValue>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ExpandoObject _compositionModel;
+    private OrdersIndexViewModel _ordersModel;
+
+    private static ServiceComponentName CatalogProductInfoComponentName = new("Catalog", "OrderProductInfo");
+
+    protected override async Task OnInitializedAsync()
+    {
+        var httpResponse = await Http.GetAsync($"api/orders");
+        dynamic compositionModel = await httpResponse.Content.AsExpandoAsync(JsonSerializerSettingsDefaults.GetJsonSerializerSettings());
+
+        _ordersModel = ((ExpandoObject)compositionModel.sales).As<OrdersIndexViewModel>(JsonSerializerSettingsDefaults.GetJsonSerializerSettings());
+        _compositionModel = (ExpandoObject)compositionModel;
+    }
+}

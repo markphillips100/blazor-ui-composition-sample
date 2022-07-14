@@ -20,7 +20,10 @@ namespace Catalog.API
         {
             publisher.Subscribe<OrdersIndexRequested>((@event, request) =>
             {
-                request.GetComposedResponseModel().catalog = new OrdersIndexViewModel { OrdersMap = _orders.ToDictionary(x => x.OrderId, x => x) };
+                request.GetComposedResponseModel().catalog = new OrdersIndexViewModel
+                {
+                    OrdersMap = _orders.ToDictionary(x => x.OrderId, x => x)
+                };
 
                 return Task.CompletedTask;
             });

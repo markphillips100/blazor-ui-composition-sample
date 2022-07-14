@@ -1,9 +1,8 @@
-using Catalog.Razor;
-using ITOps.Utilities;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using WebApp4.Client;
 
-namespace WebApp.Client
+namespace WebApp4.Client
 {
     public class Program
     {
@@ -14,9 +13,6 @@ namespace WebApp.Client
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
-            builder.Services.AddScoped<DynamicComponentFactory>();
-            builder.Services.AddScoped<IProvideDynamicComponent, OrderProductInfoDynamicComponentProvider>();
 
             await builder.Build().RunAsync();
         }

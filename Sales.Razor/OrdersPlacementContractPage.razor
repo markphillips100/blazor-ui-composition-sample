@@ -1,0 +1,76 @@
+﻿@page "/orders-placement"
+
+@using Branding.DynamicComponents
+@using Branding.DynamicComponents.ResolveByPlacementContract
+@using ITOps.Utilities
+@using Sales.API.Model
+@using System.Dynamic
+@using Sales.Razor
+@using System.Net.Http
+
+@inject HttpClient Http
+
+<PageTitle>Orders</PageTitle>
+
+<h1>Orders</h1>
+
+<p>This component demonstrates the following:</p>
+<ul>
+    <li><p>UI composition using a dynamic component that obtains its component by contract rather than explicit name owned by the dependent name.</p></li>
+    <li><p>View model composition to obtain information in a single call.</p></li>
+</ul>
+
+
+@if (_compositionModel == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <CascadingValue Value="@_compositionModel" Name="CompositionModel">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>OrderId</th>
+                    <th>Price</th>
+                    <ServiceDynamicComponentPlacement Contract="@_catalogTableHeaderContract" />
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in _ordersModel.OrdersMap.Values)
+                {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.Price</td>
+                    <ServiceDynamicComponentPlacement Contract="@_catalogTableRowContract" Key="@order.OrderId" />
+                </tr>
+                }
+            </tbody>
+        </table>
+    </CascadingValue>
+}
+
+@code {
+    private ExpandoObject _compositionModel;
+    private OrdersIndexViewModel _ordersModel;
+
+    private static ServiceComponentPlacementContract _catalogTableHeaderContract = new ServiceComponentPlacementContract(
+            new ServicePlacementName("Sales", "OrderProductTableHeader"),
+            "Catalog",
+            new ServiceDynamicComponentParameterRequirements(new Dictionary<string, Type>()));
+
+    private static ServiceComponentPlacementContract _catalogTableRowContract = new ServiceComponentPlacementContract(
+            new ServicePlacementName("Sales", "OrderProductTableRow"),
+            "Catalog",
+            new ServiceDynamicComponentParameterRequirements(
+                new Dictionary<string, Type> { { "OrderId", typeof(Guid) } }));
+
+    protected override async Task OnInitializedAsync()
+    {
+        var httpResponse = await Http.GetAsync($"api/orders");
+        dynamic compositionModel = await httpResponse.Content.AsExpandoAsync(JsonSerializerSettingsDefaults.GetJsonSerializerSettings());
+
+        _ordersModel = ((ExpandoObject)compositionModel.sales).As<OrdersIndexViewModel>(JsonSerializerSettingsDefaults.GetJsonSerializerSettings());
+        _compositionModel = (ExpandoObject)compositionModel;
+    }
+}

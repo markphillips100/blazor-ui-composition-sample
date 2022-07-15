@@ -16,10 +16,11 @@ All approaches use viewmodel composition to build a model from a single api call
 
 ## DynamicComponent Approach
 
-WebApp project makes use of 2 page components from the Sales service.
+WebApp project makes use of 3 page components from the Sales service to demonstrate 3 different ways of resolving dynamic components from another service boundary and render them where the consuming boundary wants them to be rendered.
 
 - ```/orders``` This page uses a Blazor DynamicComponent to render a blazor component from another service boundary (Catalog).  Whilst there's no compile-time dependency for this UI composition approach, there is knowledge leaking from the Catalog domain into the Sales domain as the fully qualified name and component parameter contract must be known to Sales UI components.
-- ```/orders-factory``` This page again use a ServiceDynamicComponent to render the same blazor component form the Catalog domain.  This branding component resolves the required type and parameters to pass to an encapsulated DynamicComponent.  A key is optional as some components might not require one.
+- ```/orders-name``` This page again use a ServiceDynamicComponent to render the same blazor component from the Catalog domain.  This branding component resolves the required type and parameters to pass to an encapsulated DynamicComponent by using a logical name to find the correct component to render.  A key is optional as some components might not require one.
+- ```/orders-placement``` This page defines contracts to resolve components from other boundaries.  It's a less-coupled approach as the consuming boundary merely decides what the contract is for rendering at a place in the page, whilst the dependent boundary determines if they want to support that contract with a viable component.
 
 ### ServiceDynamicComponent explained
 
@@ -34,6 +35,7 @@ The dependent service boundary then produces components that can be resolved to 
 This would allow the consuming boundary the ability to publish to other domains that they can "plug-in" a component in the defined placeholder without necessarily knowing anything about what that component renders.  The previous approach almost gives away the intent of the component by its name alone (Order "Product Info").
 
 This can work not just for card style layouts but also tables.  The latter would require 2 placeholder names and associated components to allow a dependent domain to render table headers as well as table cells.
+
 ## Template Approach
 
 WebApp2 project does not use any dynamic component.  Instead, it makes the app responsible for the ```/orders``` page and how to construct the components it wants, starting with the Orders component from Sales.  This component is only responsible for the following:

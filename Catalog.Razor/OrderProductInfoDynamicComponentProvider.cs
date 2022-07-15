@@ -1,4 +1,5 @@
 ﻿using Branding.DynamicComponents;
+using Branding.DynamicComponents.ResolveByName;
 using System;
 using System.Collections.Generic;
 

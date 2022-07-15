@@ -1,4 +1,5 @@
-using Branding.DynamicComponents;
+using Branding.DynamicComponents.ResolveByName;
+using Branding.DynamicComponents.ResolveByPlacementContract;
 using Catalog.Razor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -17,6 +18,10 @@ namespace WebApp.Client
 
             builder.Services.AddScoped<DynamicComponentFactory>();
             builder.Services.AddScoped<IProvideDynamicComponent, OrderProductInfoDynamicComponentProvider>();
+
+            builder.Services.AddScoped<DynamicComponentPlacementFactory>();
+            builder.Services.AddScoped<IProvideDynamicComponentPlacement, SalesOrderProductTableHeaderDynamicComponentContractResolver>();
+            builder.Services.AddScoped<IProvideDynamicComponentPlacement, SalesOrderProductTableRowDynamicComponentContractResolver>();
 
             await builder.Build().RunAsync();
         }

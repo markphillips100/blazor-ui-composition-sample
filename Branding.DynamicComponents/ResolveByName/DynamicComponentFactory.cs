@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Branding.DynamicComponents
+namespace Branding.DynamicComponents.ResolveByName
 {
     public class DynamicComponentFactory
     {

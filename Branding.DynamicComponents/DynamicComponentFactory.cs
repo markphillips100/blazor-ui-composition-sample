@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ITOps.Utilities
+namespace Branding.DynamicComponents
 {
     public class DynamicComponentFactory
     {
@@ -13,7 +13,7 @@ namespace ITOps.Utilities
             _dynamicComponentProviders = dynamicComponentProviders;
         }
 
-        public (Type DynamicComponentType, Dictionary<string, object> Parameters)? GetDynamicComponentInfo(ServiceComponentName serviceComponentName, Guid key)
+        public ServiceDynamicComponentContract? GetDynamicComponentInfo(ServiceComponentName serviceComponentName, Guid? key)
         {
             var provider = _dynamicComponentProviders.SingleOrDefault(x => x.ServiceComponentName == serviceComponentName);
             if (provider == null)

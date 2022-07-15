@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Branding.DynamicComponents\Branding.DynamicComponents.csproj" />
     <ProjectReference Include="..\ITOps.Utilities\ITOps.Utilities.csproj" />
     <ProjectReference Include="..\Sales.API.Model\Sales.API.Model.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿@page "/orders-factory"
+@using Branding.DynamicComponents
 @using ITOps.Utilities
 @using Sales.API.Model
 @using System.Dynamic
@@ -6,7 +7,6 @@
 @using System.Net.Http
 
 @inject HttpClient Http
-@inject DynamicComponentFactory CompositionComponentFactory
 
 <PageTitle>Orders</PageTitle>
 
@@ -41,14 +41,7 @@ else
                     <td>@order.OrderId</td>
                     <td>@order.Price</td>
                     <td>
-                        @{
-                            var catalogProductInfoDynamicComponent = CompositionComponentFactory.GetDynamicComponentInfo(CatalogProductInfoComponentName, order.OrderId);
-                            if (catalogProductInfoDynamicComponent != null)
-                            {
-                            <DynamicComponent Type="@catalogProductInfoDynamicComponent.Value.DynamicComponentType"
-                                              Parameters="@catalogProductInfoDynamicComponent.Value.Parameters" />
-                            }
-                        }
+                        <ServiceDynamicComponent ServiceName="Catalog" ComponentName="OrderProductInfo" Key="@order.OrderId" />
                     </td>
                 </tr>
             </CascadingValue>
@@ -60,8 +53,6 @@ else
 @code {
     private ExpandoObject _compositionModel;
     private OrdersIndexViewModel _ordersModel;
-
-    private static ServiceComponentName CatalogProductInfoComponentName = new("Catalog", "OrderProductInfo");
 
     protected override async Task OnInitializedAsync()
     {

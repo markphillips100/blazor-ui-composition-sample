@@ -17,11 +17,13 @@
     private OrderViewModel _model;
 
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
         dynamic compositionModel = CompositionModel;
 
         var ordersModel = ((ExpandoObject)compositionModel.sales).As<OrdersIndexViewModel>(JsonSerializerSettingsDefaults.GetJsonSerializerSettings());
         _model = ordersModel.OrdersMap[OrderId];
+
+        return Task.CompletedTask;
     }
 }

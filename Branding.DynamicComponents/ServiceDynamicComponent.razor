@@ -1,0 +1,34 @@
+﻿@using System.Dynamic
+@inject DynamicComponentFactory CompositionComponentFactory
+
+@if (_serviceDynamicComponentContract != null)
+{
+<DynamicComponent Type="@_serviceDynamicComponentContract.DynamicComponentType"
+                  Parameters="@_serviceDynamicComponentContract.Parameters" />
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public string ServiceName { get; set; } = null!;
+    [Parameter, EditorRequired]
+    public string ComponentName { get; set; } = null!;
+    [Parameter]
+    public Guid? Key { get; set; }
+    [CascadingParameter(Name = "CompositionModel")]
+    public ExpandoObject CompositionModel { get; set; } = null!;
+
+    private ServiceDynamicComponentContract? _serviceDynamicComponentContract;
+
+    protected override Task OnInitializedAsync()
+    {
+        if (CompositionModel == null)
+        {
+            throw new ArgumentNullException(nameof(CompositionModel), "A cascading parameter with name CompositionModel must be provided to use this component.");
+        }
+
+        var serviceComponentName = new ServiceComponentName(ServiceName, ComponentName);
+        _serviceDynamicComponentContract = CompositionComponentFactory.GetDynamicComponentInfo(serviceComponentName, Key);
+
+        return Task.CompletedTask;
+    }
+}

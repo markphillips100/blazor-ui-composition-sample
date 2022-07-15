@@ -47,6 +47,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp3.Server", "WebApp3\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp3.Client", "WebApp3\Client\WebApp3.Client.csproj", "{C4F7D203-7ACE-4408-BE38-F56D9C8C5AF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Branding.DynamicComponents", "Branding.DynamicComponents\Branding.DynamicComponents.csproj", "{A3AB7291-D561-44E1-9A8F-22F83A5031FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0F25B376-A74D-4288-9416-B64C6983FCA1}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +120,10 @@ Global
 		{C4F7D203-7ACE-4408-BE38-F56D9C8C5AF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4F7D203-7ACE-4408-BE38-F56D9C8C5AF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4F7D203-7ACE-4408-BE38-F56D9C8C5AF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3AB7291-D561-44E1-9A8F-22F83A5031FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3AB7291-D561-44E1-9A8F-22F83A5031FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3AB7291-D561-44E1-9A8F-22F83A5031FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3AB7291-D561-44E1-9A8F-22F83A5031FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,6 +149,7 @@ Global
 		{10831119-B4FE-4DE8-9BC6-91B29CD823F7} = {C22D4BED-B162-484A-8FAD-34F7B145B301}
 		{68DEFAC8-CFB6-491E-A15A-534CB350A6E0} = {10831119-B4FE-4DE8-9BC6-91B29CD823F7}
 		{C4F7D203-7ACE-4408-BE38-F56D9C8C5AF0} = {10831119-B4FE-4DE8-9BC6-91B29CD823F7}
+		{A3AB7291-D561-44E1-9A8F-22F83A5031FC} = {263012EE-CB86-4773-9CDE-9EB74BCF8EA2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B4CA132F-FB54-40A0-BFD7-5F246E8D7035}

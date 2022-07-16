@@ -1,6 +1,7 @@
+using Branding.DynamicComponents.ResolveByContract;
 using Branding.DynamicComponents.ResolveByName;
-using Branding.DynamicComponents.ResolveByPlacementContract;
-using Catalog.Razor;
+using Catalog.Razor.ResolveByContractProviders;
+using Catalog.Razor.ResolveByNameProviders;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -14,14 +15,16 @@ namespace WebApp.Client
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             builder.Services.AddScoped<DynamicComponentFactory>();
-            builder.Services.AddScoped<IProvideDynamicComponent, OrderProductInfoDynamicComponentProvider>();
+            builder.Services.AddScoped<IProvideDynamicComponent, OrderTableHeaderDynamicComponentProvider>();
+            builder.Services.AddScoped<IProvideDynamicComponent, OrderTableRowDynamicComponentProvider>();
 
             builder.Services.AddScoped<DynamicComponentPlacementFactory>();
-            builder.Services.AddScoped<IProvideDynamicComponentPlacement, SalesOrderProductTableHeaderDynamicComponentContractResolver>();
-            builder.Services.AddScoped<IProvideDynamicComponentPlacement, SalesOrderProductTableRowDynamicComponentContractResolver>();
+            builder.Services.AddScoped<IProvideDynamicComponentPlacement, SalesOrderTableHeaderDynamicComponentContractProvider>();
+            builder.Services.AddScoped<IProvideDynamicComponentPlacement, SalesOrderTableRowDynamicComponentContractProvider>();
+            builder.Services.AddScoped<IProvideDynamicComponentPlacement, SalesOrderCardDynamicComponentContractProvider>();
 
             await builder.Build().RunAsync();
         }

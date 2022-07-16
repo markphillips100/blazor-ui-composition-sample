@@ -19,7 +19,7 @@
     <li><p>UI composition using a dynamic component that obtains its type and parameters indirectly by using a provider.</p></li>
     <li><p>View model composition to obtain information in a single call.</p></li>
 </ul>
-    
+
 
 @if (_compositionModel == null)
 {
@@ -27,29 +27,27 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>OrderId</th>
-                <th>Price</th>
-                <th>Product Info</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in _ordersModel.OrdersMap.Values)
-            {
-            <CascadingValue Value="@_compositionModel" Name="CompositionModel">
+    <CascadingValue Value="@_compositionModel" Name="CompositionModel">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>OrderId</th>
+                    <th>Price</th>
+                    <ServiceDynamicComponent ServiceName="Catalog" ComponentName="OrderTableHeader" />
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in _ordersModel.OrdersMap.Values)
+                {
                 <tr>
                     <td>@order.OrderId</td>
                     <td>@order.Price</td>
-                    <td>
-                        <ServiceDynamicComponent ServiceName="Catalog" ComponentName="OrderProductInfo" Key="@order.OrderId" />
-                    </td>
+                    <ServiceDynamicComponent ServiceName="Catalog" ComponentName="OrderTableRow" Key="@order.OrderId" />
                 </tr>
-            </CascadingValue>
-            }
-        </tbody>
-    </table>
+                }
+            </tbody>
+        </table>
+    </CascadingValue>
 }
 
 @code {

@@ -18,7 +18,7 @@ namespace Catalog.API
         [HttpGet("api/orders")]
         public void Subscribe(ICompositionEventsPublisher publisher)
         {
-            publisher.Subscribe<OrdersIndexRequested>((@event, request) =>
+            publisher.Subscribe<OrdersIndexRequested>((_, request) =>
             {
                 request.GetComposedResponseModel().catalog = new OrdersIndexViewModel
                 {

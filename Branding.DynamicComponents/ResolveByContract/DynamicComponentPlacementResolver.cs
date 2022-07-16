@@ -1,7 +1,9 @@
-﻿namespace Branding.DynamicComponents.ResolveByPlacementContract
+﻿namespace Branding.DynamicComponents.ResolveByContract
 {
-    public abstract class DynamicComponentPlacementResolver : IProvideDynamicComponentPlacement
+    public abstract class DynamicComponentPlacementProvider : IProvideDynamicComponentPlacement
     {
+        public abstract string ServiceName { get; }
+
         protected abstract ServiceComponentPlacementContract PlaceHolderContract { get; set; }
 
         public abstract ServiceDynamicComponentContract GetDynamicComponentInfo(Guid? key);
@@ -10,9 +12,7 @@
         {
             return
                 contract.ServicePlaceHolderName == PlaceHolderContract.ServicePlaceHolderName &&
-                contract.ComponentServiceScope == PlaceHolderContract.ComponentServiceScope &&
                 contract.ComponentParameterRequirements.ParametersSupported(PlaceHolderContract.ComponentParameterRequirements);
         }
     }
-
 }

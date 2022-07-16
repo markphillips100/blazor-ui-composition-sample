@@ -1,4 +1,4 @@
-﻿namespace Branding.DynamicComponents.ResolveByPlacementContract
+﻿namespace Branding.DynamicComponents.ResolveByContract
 {
     public record ServiceDynamicComponentParameterRequirements(Dictionary<string, Type> Parameters)
     {

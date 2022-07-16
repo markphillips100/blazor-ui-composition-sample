@@ -1,7 +1,7 @@
-﻿@page "/orders-placement"
+﻿@page "/orders-contract"
 
 @using Branding.DynamicComponents
-@using Branding.DynamicComponents.ResolveByPlacementContract
+@using Branding.DynamicComponents.ResolveByContract
 @using ITOps.Utilities
 @using Sales.API.Model
 @using System.Dynamic
@@ -28,12 +28,24 @@
 else
 {
     <CascadingValue Value="@_compositionModel" Name="CompositionModel">
+        <h2>Cards</h2>
+        @foreach (var order in _ordersModel.OrdersMap.Values)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <Sales.Razor.Order OrderId="@order.OrderId" />
+                    <ServiceDynamicComponentPlacement Contract="@_orderCardContract" Key="@order.OrderId" />
+                </div>
+            </div>
+        }
+
+        <h2>Tables</h2>
         <table class="table">
             <thead>
                 <tr>
                     <th>OrderId</th>
                     <th>Price</th>
-                    <ServiceDynamicComponentPlacement Contract="@_catalogTableHeaderContract" />
+                    <ServiceDynamicComponentPlacement Contract="@_orderTableHeaderContract" />
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +54,7 @@ else
                 <tr>
                     <td>@order.OrderId</td>
                     <td>@order.Price</td>
-                    <ServiceDynamicComponentPlacement Contract="@_catalogTableRowContract" Key="@order.OrderId" />
+                    <ServiceDynamicComponentPlacement Contract="@_orderTableRowContract" Key="@order.OrderId" />
                 </tr>
                 }
             </tbody>
@@ -54,14 +66,17 @@ else
     private ExpandoObject _compositionModel;
     private OrdersIndexViewModel _ordersModel;
 
-    private static ServiceComponentPlacementContract _catalogTableHeaderContract = new ServiceComponentPlacementContract(
-            new ServicePlacementName("Sales", "OrderProductTableHeader"),
-            "Catalog",
+    private static ServiceComponentPlacementContract _orderTableHeaderContract = new ServiceComponentPlacementContract(
+            new ServicePlacementName("Sales", "OrderTableHeader"),
             new ServiceDynamicComponentParameterRequirements(new Dictionary<string, Type>()));
 
-    private static ServiceComponentPlacementContract _catalogTableRowContract = new ServiceComponentPlacementContract(
-            new ServicePlacementName("Sales", "OrderProductTableRow"),
-            "Catalog",
+    private static ServiceComponentPlacementContract _orderTableRowContract = new ServiceComponentPlacementContract(
+            new ServicePlacementName("Sales", "OrderTableRow"),
+            new ServiceDynamicComponentParameterRequirements(
+                new Dictionary<string, Type> { { "OrderId", typeof(Guid) } }));
+
+    private static ServiceComponentPlacementContract _orderCardContract = new ServiceComponentPlacementContract(
+            new ServicePlacementName("Sales", "OrderCard"),
             new ServiceDynamicComponentParameterRequirements(
                 new Dictionary<string, Type> { { "OrderId", typeof(Guid) } }));
 

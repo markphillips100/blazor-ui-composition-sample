@@ -1,4 +1,0 @@
-﻿namespace Branding.DynamicComponents.ResolveByPlacementContract
-{
-    public record ServiceComponentPlacementContract(ServicePlacementName ServicePlaceHolderName, string ComponentServiceScope, ServiceDynamicComponentParameterRequirements ComponentParameterRequirements);
-}

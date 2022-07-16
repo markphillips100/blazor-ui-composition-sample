@@ -1,0 +1,39 @@
+﻿@using System.Dynamic
+@using Branding.DynamicComponents
+@using Branding.DynamicComponents.ResolveByContract
+
+@inject DynamicComponentPlacementFactory CompositionComponentPlacementFactory
+
+@if (_serviceDynamicComponentContracts != null)
+{
+    foreach(var contract in _serviceDynamicComponentContracts)
+    {
+        <DynamicComponent Type="@contract.DynamicComponentType"
+                          Parameters="@contract.Parameters" />
+    }
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public ServiceComponentPlacementContract Contract { get; set; } = default!;
+    [Parameter]
+    public string? ServiceOrder { get; set; }
+    [Parameter]
+    public Guid? Key { get; set; }
+    [CascadingParameter(Name = "CompositionModel")]
+    public ExpandoObject CompositionModel { get; set; } = null!;
+
+    private ServiceDynamicComponentContract[] _serviceDynamicComponentContracts = default!;
+
+    protected override Task OnInitializedAsync()
+    {
+        if (CompositionModel == null)
+        {
+            throw new ArgumentNullException(nameof(CompositionModel), "A cascading parameter with name CompositionModel must be provided to use this component.");
+        }
+
+        _serviceDynamicComponentContracts = CompositionComponentPlacementFactory.GetDynamicComponentInfoIndex(Contract, ServiceOrder, Key);
+
+        return Task.CompletedTask;
+    }
+}
